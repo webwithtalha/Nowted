@@ -8,7 +8,14 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        yuji: ['"Yuji Mai"', "serif"],
+        poppins: ['"Poppins"', "sans-serif"],
+      },
       colors: {
+        customBlack: "#181818",
+        customDark: "#242424",
+        customBg: "#1C1C1C",
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
