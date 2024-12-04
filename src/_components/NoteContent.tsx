@@ -1,3 +1,5 @@
+"use client";
+
 const NoteContent = () => {
   return (
     <main className="flex-1 bg-customBg p-6">

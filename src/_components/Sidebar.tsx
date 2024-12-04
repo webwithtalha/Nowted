@@ -1,9 +1,35 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
 import { IoSearch, IoArchiveOutline } from "react-icons/io5";
 import { MdOutlineFolder } from "react-icons/md";
 import { IoMdStarOutline } from "react-icons/io";
 import { LuTrash } from "react-icons/lu";
 
 const Sidebar = () => {
+  const [folders, setFolders] = useState<string[]>([]);
+  const [moreOptions, setMoreOptions] = useState<
+    { label: string; icon: JSX.Element }[]
+  >([]);
+
+  useEffect(() => {
+    setFolders(["Personal", "Work", "Travel", "Events", "Finances"]);
+    setMoreOptions([
+      {
+        label: "Favorites",
+        icon: <IoMdStarOutline className="text-xl text-gray-400" />,
+      },
+      {
+        label: "Trash",
+        icon: <LuTrash className="text-xl text-gray-400" />,
+      },
+      {
+        label: "Archived Notes",
+        icon: <IoArchiveOutline className="text-xl text-gray-400" />,
+      },
+    ]);
+  }, []);
+
   return (
     <aside className="w-64 bg-customBlack text-white flex flex-col p-4">
       <div className="flex items-center justify-between mb-8">
@@ -31,19 +57,17 @@ const Sidebar = () => {
             Folders
           </h2>
           <ul className="space-y-4">
-            {["Personal", "Work", "Travel", "Events", "Finances"].map(
-              (folder) => (
-                <li className="flex items-center gap-2" key={folder}>
-                  <MdOutlineFolder className="text-xl text-gray-400" />
-                  <a
-                    href="#"
-                    className="text-gray-400 cursor-pointer hover:text-white font-poppins font-medium text-sm"
-                  >
-                    {folder}
-                  </a>
-                </li>
-              )
-            )}
+            {folders.map((folder) => (
+              <li className="flex items-center gap-2" key={folder}>
+                <MdOutlineFolder className="text-xl text-gray-400" />
+                <a
+                  href="#"
+                  className="text-gray-400 cursor-pointer hover:text-white font-poppins font-medium text-sm"
+                >
+                  {folder}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -52,20 +76,7 @@ const Sidebar = () => {
             More
           </h2>
           <ul className="space-y-4">
-            {[
-              {
-                label: "Favorites",
-                icon: <IoMdStarOutline className="text-xl text-gray-400" />,
-              },
-              {
-                label: "Trash",
-                icon: <LuTrash className="text-xl text-gray-400" />,
-              },
-              {
-                label: "Archived Notes",
-                icon: <IoArchiveOutline className="text-xl text-gray-400" />,
-              },
-            ].map((item) => (
+            {moreOptions.map((item) => (
               <li className="flex items-center gap-2" key={item.label}>
                 {item.icon}
                 <a
