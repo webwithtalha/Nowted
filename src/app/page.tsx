@@ -1,7 +1,7 @@
 "use client";
 
-import Sidebar from "../_components/Sidebar";
-import NoteContent from "../_components/NoteContent";
+import Sidebar from "./_components/Sidebar";
+import NoteContent from "./_components/NoteContent";
 
 export default function Home() {
   return (
