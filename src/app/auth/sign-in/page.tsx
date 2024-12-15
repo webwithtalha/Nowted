@@ -1,8 +1,41 @@
 "use client";
 
+import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from 'next/navigation'; // For Next.js App Router
+import { userService } from "../../services/userService";
 
 const SignInCard = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg("");
+  
+    // Call the login function and store the entire response in a variable first
+    const result = await userService.loginUser(email.trim(), password.trim());
+  
+    // Log the result to see what you are actually getting back
+    console.log("Login result:", result);
+  
+    // Now try destructuring after you have confirmed what result looks like
+    const { success, token } = result;
+  
+    if (success && token) {
+      localStorage.setItem("token", token);
+      router.push("/");
+    } else {
+      setErrorMsg("Invalid credentials");
+    }
+  };
+  
+  
+  
+  
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-customBlack">
       <div className="w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-customBg">
@@ -19,21 +52,36 @@ const SignInCard = () => {
           <p className="mt-1 text-center text-xs font-poppins text-gray-500 dark:text-gray-400">
             Welcome back! Please enter your details.
           </p>
-          <form>
+          
+          {errorMsg && (
+            <div className="text-center text-red-500 text-sm font-poppins mt-2">
+              {errorMsg}
+            </div>
+          )}
+          
+          <form onSubmit={handleSubmit}>
             <div className="w-full mt-4">
               <input
-                className="block w-full px-4 py-2 mt-2 text-white placeholder-gray-500 bg-white border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"
+                className="block w-full px-4 py-2 mt-2 text-white placeholder-gray-500 bg-white border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 
+                  focus:border-blue-400 dark:focus:border-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"
                 type="email"
                 placeholder="Email Address"
                 aria-label="Email Address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
             <div className="w-full mt-4">
               <input
-                className="block w-full px-4 py-2 mt-2 text-white placeholder-gray-500 bg-white border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"
+                className="block w-full px-4 py-2 mt-2 text-white placeholder-gray-500 bg-white border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 
+                  focus:border-blue-400 dark:focus:border-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"
                 type="password"
                 placeholder="Password"
                 aria-label="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
             </div>
             <div className="flex items-center justify-between mt-4">
@@ -46,7 +94,8 @@ const SignInCard = () => {
 
               <button
                 type="submit"
-                className="px-6 py-2 text-sm font-poppins font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+                className="px-6 py-2 text-sm font-poppins font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 
+                  focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
               >
                 Sign In
               </button>
