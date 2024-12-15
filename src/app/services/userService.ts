@@ -8,8 +8,7 @@ export const userService = {
 
   loginUser: async (email: string, password: string): Promise<LoginResponse> => {
     const response = await apiClient.post("/users/login", { email, password });
-    // Since response is already { success: true, token: "..." } and NOT an AxiosResponse:
-    return response as unknown as LoginResponse;  // return response directly, do NOT use response.data
+    return response as unknown as LoginResponse;
   }
 };
 

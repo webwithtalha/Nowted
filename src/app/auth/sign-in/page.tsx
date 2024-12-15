@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from 'next/navigation'; // For Next.js App Router
+import { useRouter } from 'next/navigation';
 import { userService } from "../../services/userService";
 
 const SignInCard = () => {
@@ -14,21 +14,14 @@ const SignInCard = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg("");
-  
-    // Call the login function and store the entire response in a variable first
+
     const result = await userService.loginUser(email.trim(), password.trim());
+    const { success, message } = result;
   
-    // Log the result to see what you are actually getting back
-    console.log("Login result:", result);
-  
-    // Now try destructuring after you have confirmed what result looks like
-    const { success, token } = result;
-  
-    if (success && token) {
-      localStorage.setItem("token", token);
+    if (success) {
       router.push("/");
     } else {
-      setErrorMsg("Invalid credentials");
+      setErrorMsg(message || "Invalid credentials");
     }
   };
   
