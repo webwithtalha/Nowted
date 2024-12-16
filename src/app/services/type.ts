@@ -3,3 +3,8 @@ export interface LoginResponse {
     message?: string;
     token?: string;
 }
+
+export interface LogoutResponse {
+    success: boolean;
+    message?: string;
+}

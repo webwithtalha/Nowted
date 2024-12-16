@@ -4,9 +4,14 @@ import React, { useState, useEffect } from "react";
 import { IoSearch, IoArchiveOutline } from "react-icons/io5";
 import { MdOutlineFolder } from "react-icons/md";
 import { IoMdStarOutline } from "react-icons/io";
+import { TbLogout2 } from "react-icons/tb";
 import { LuTrash } from "react-icons/lu";
 
+import { userService } from "../services/userService";
+import { useRouter } from "next/navigation"; 
+
 const Sidebar = () => {
+  const router = useRouter();
   const [folders, setFolders] = useState<string[]>([]);
   const [moreOptions, setMoreOptions] = useState<
     { label: string; icon: JSX.Element }[]
@@ -29,6 +34,23 @@ const Sidebar = () => {
       },
     ]);
   }, []);
+
+
+
+  const handleLogout = async () => {
+    try {
+        const result = await userService.logoutUser();
+
+        if (result && result.success) { 
+            router.push("/auth/sign-in");
+        } else {
+            console.error("Logout failed or response invalid.");
+        }
+    } catch (error) {
+        console.error("Error during logout:", error);
+    }
+};
+
 
   return (
     <aside className="w-64 bg-customBlack text-white flex flex-col p-4">
@@ -88,6 +110,12 @@ const Sidebar = () => {
               </li>
             ))}
           </ul>
+  <div className="flex items-center mt-6 gap-2 text-gray-400 font-poppins font-semibold text-sm cursor-pointer"
+  onClick={handleLogout}
+  >
+  <TbLogout2 className="text-xl" />
+  <h2 className="hover:text-white">Logout</h2>
+</div>
         </div>
       </nav>
     </aside>

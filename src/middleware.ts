@@ -12,10 +12,14 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/', req.url));
   }
 
+  if (req.nextUrl.pathname === '/auth/sign-up' && token) {
+    return NextResponse.redirect(new URL('/', req.url));
+  }
+
   // Otherwise, allow the request
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/', '/auth/sign-in'],
+  matcher: ['/', '/auth/sign-in', '/auth/sign-up'],
 };
