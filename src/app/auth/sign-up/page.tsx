@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { userService } from "../../services/userService";
+import { toast } from "react-toastify";
 
 const SignUpCard = () => {
   const [formData, setFormData] = useState({
@@ -29,6 +30,7 @@ const SignUpCard = () => {
 
     try {
       await userService.createUser(formData);
+      toast.success("User created successfully");
       setSuccess("User created successfully! You can now log in.");
       setFormData({ username: "", email: "", password: "" });
     } catch (err) {
@@ -51,8 +53,12 @@ const SignUpCard = () => {
           <h3 className="mt-3 text-xl font-poppins font-medium text-center text-gray-600 dark:text-gray-200">
             Create Your Account
           </h3>
+          <p className="mt-1 text-center text-xs font-poppins text-gray-500 dark:text-gray-400">
+            Welcome back! Please enter your details.
+          </p>
 
           <form onSubmit={handleSubmit}>
+          <div className="w-full mt-4">
             <input
               type="text"
               name="username"
@@ -60,9 +66,12 @@ const SignUpCard = () => {
               onChange={handleChange}
               placeholder="Username"
               required
-              className="block w-full px-4 py-2 mt-4 bg-gray-100 rounded-md"
+              className="block w-full px-4 py-2 mt-2 text-white placeholder-gray-500 bg-white border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 
+                  focus:border-blue-400 dark:focus:border-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"
             />
+            </div>
 
+            <div className="w-full mt-4">
             <input
               type="email"
               name="email"
@@ -70,9 +79,12 @@ const SignUpCard = () => {
               onChange={handleChange}
               placeholder="Email Address"
               required
-              className="block w-full px-4 py-2 mt-4 bg-gray-100 rounded-md"
+             className="block w-full px-4 py-2 mt-2 text-white placeholder-gray-500 bg-white border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 
+                  focus:border-blue-400 dark:focus:border-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"
             />
-
+            </div>
+            
+            <div className="w-full mt-4">
             <input
               type="password"
               name="password"
@@ -80,12 +92,14 @@ const SignUpCard = () => {
               onChange={handleChange}
               placeholder="Password"
               required
-              className="block w-full px-4 py-2 mt-4 bg-gray-100 rounded-md"
+              className="block w-full px-4 py-2 mt-2 text-white placeholder-gray-500 bg-white border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 
+                  focus:border-blue-400 dark:focus:border-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring focus:ring-blue-300"
             />
+            </div>
 
             <button
               type="submit"
-              className="w-full px-4 py-2 mt-6 text-white bg-blue-500 rounded-md"
+              className="w-full px-4 py-2 mt-4 text-white bg-blue-500 rounded-md"
               disabled={loading}
             >
               {loading ? "Signing Up..." : "Sign Up"}

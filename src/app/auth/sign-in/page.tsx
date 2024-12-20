@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { userService } from "../../services/userService";
+import { toast } from "react-toastify";
 
 const SignInCard = () => {
   const [email, setEmail] = useState("");
@@ -19,6 +20,7 @@ const SignInCard = () => {
     const { success, message } = result;
   
     if (success) {
+      toast.success("Logged in successfully");
       router.push("/");
     } else {
       setErrorMsg(message || "Invalid credentials");
