@@ -1,4 +1,8 @@
-import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from "axios";
+import axios, {
+  AxiosInstance,
+  InternalAxiosRequestConfig,
+  AxiosResponse,
+} from "axios";
 
 const BASE_URL = "http://localhost:5000/api";
 
@@ -28,6 +32,9 @@ apiClient.interceptors.response.use(
     return response.data;
   },
   (error) => {
+    if (error.response?.status === 409) {
+      return Promise.reject({ message: "User already exists." });
+    }
     console.error("Response Error:", error.response || error.message);
     return Promise.reject(
       error.response?.data || { message: "Something went wrong!" }
